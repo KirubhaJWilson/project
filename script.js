@@ -1,7 +1,9 @@
 const newsFeed = document.getElementById('news-feed');
-const API_URL = 'https://saurav.tech/NewsAPI/top-headlines/category/general/us.json';
+const categorySelect = document.getElementById('category-select');
+const API_BASE_URL = 'https://saurav.tech/NewsAPI/top-headlines/category/';
 
-async function fetchNews() {
+async function fetchNews(category = 'general') {
+    const API_URL = `${API_BASE_URL}${category}/us.json`;
     newsFeed.innerHTML = '<p>Loading news...</p>';
     try {
         const response = await fetch(API_URL);
@@ -20,7 +22,7 @@ function renderArticles(articles) {
     newsFeed.innerHTML = '';
 
     if (!articles || articles.length === 0) {
-        newsFeed.innerHTML = '<p>No news articles found.</p>';
+        newsFeed.innerHTML = '<p>No news articles found for this category.</p>';
         return;
     }
 
@@ -32,7 +34,6 @@ function renderArticles(articles) {
             const imageElement = document.createElement('img');
             imageElement.src = article.urlToImage;
             imageElement.alt = article.title || 'News article image';
-            // Handle image loading errors
             imageElement.onerror = (e) => {
                 e.target.style.display = 'none';
             };
@@ -61,4 +62,11 @@ function renderArticles(articles) {
     }
 }
 
+// Add event listener to the category selector
+categorySelect.addEventListener('change', (event) => {
+    const selectedCategory = event.target.value;
+    fetchNews(selectedCategory);
+});
+
+// Initial fetch for the default category
 fetchNews();

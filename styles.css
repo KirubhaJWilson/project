@@ -49,3 +49,15 @@ header {
 .article a:hover {
     text-decoration: underline;
 }
+
+.filter-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+#category-select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
