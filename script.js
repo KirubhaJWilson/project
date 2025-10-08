@@ -1,40 +1,64 @@
 const newsFeed = document.getElementById('news-feed');
+const API_URL = 'https://saurav.tech/NewsAPI/top-headlines/category/general/us.json';
 
-const articles = [
-    {
-        title: 'Breaking News: The Rise of AI',
-        content: 'Artificial intelligence is transforming the world as we know it, from healthcare to entertainment.'
-    },
-    {
-        title: 'Tech Giants Unveil New Gadgets',
-        content: 'This week, major tech companies revealed their latest innovations, including foldable phones and smart glasses.'
-    },
-    {
-        title: 'Space Exploration Reaches New Heights',
-        content: 'A new mission to Mars has been announced, with the goal of establishing a human colony on the red planet.'
-    },
-    {
-        title: 'The Future of Renewable Energy',
-        content: 'Scientists have made a breakthrough in solar panel efficiency, paving the way for a greener future.'
+async function fetchNews() {
+    newsFeed.innerHTML = '<p>Loading news...</p>';
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        renderArticles(data.articles);
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        newsFeed.innerHTML = '<p>Sorry, we could not fetch the news at this time. Please try again later.</p>';
     }
-];
+}
 
-function renderArticles() {
+function renderArticles(articles) {
+    newsFeed.innerHTML = '';
+
+    if (!articles || articles.length === 0) {
+        newsFeed.innerHTML = '<p>No news articles found.</p>';
+        return;
+    }
+
     for (const article of articles) {
         const articleElement = document.createElement('div');
         articleElement.className = 'article';
 
+        if (article.urlToImage) {
+            const imageElement = document.createElement('img');
+            imageElement.src = article.urlToImage;
+            imageElement.alt = article.title || 'News article image';
+            // Handle image loading errors
+            imageElement.onerror = (e) => {
+                e.target.style.display = 'none';
+            };
+            articleElement.appendChild(imageElement);
+        }
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+
         const titleElement = document.createElement('h2');
-        titleElement.textContent = article.title;
+        const linkElement = document.createElement('a');
+        linkElement.href = article.url;
+        linkElement.textContent = article.title;
+        linkElement.target = '_blank';
+        linkElement.rel = 'noopener noreferrer';
+        titleElement.appendChild(linkElement);
 
         const contentElement = document.createElement('p');
-        contentElement.textContent = article.content;
+        contentElement.textContent = article.description || '';
 
-        articleElement.appendChild(titleElement);
-        articleElement.appendChild(contentElement);
+        contentDiv.appendChild(titleElement);
+        contentDiv.appendChild(contentElement);
+        articleElement.appendChild(contentDiv);
 
         newsFeed.appendChild(articleElement);
     }
 }
 
-renderArticles();
+fetchNews();

@@ -20,11 +20,32 @@ header {
 
 .article {
     background-color: #fff;
-    padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.article img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.article .content {
+    padding: 1rem;
 }
 
 .article h2 {
     margin-top: 0;
+}
+
+.article a {
+    color: #333;
+    text-decoration: none;
+}
+
+.article a:hover {
+    text-decoration: underline;
 }
