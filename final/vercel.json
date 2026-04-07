@@ -19,6 +19,7 @@
     { "source": "/api/node/(.*)", "destination": "/backend-node/server.js" },
     { "source": "/api/ml/(.*)", "destination": "/backend-fastapi/main.py" },
     { "source": "/(.*)", "destination": "/frontend/$1" },
-    { "source": "/predict", "destination": "/backend-fastapi/main.py" }
+    { "source": "/predict", "destination": "/backend-fastapi/main.py" },
+    { "source": "/login", "destination": "/backend-node/server.js" }
   ]
 }
