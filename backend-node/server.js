@@ -86,7 +86,8 @@ app.get('/logs/:patient_id', authenticateToken, async (req, res) => {
 // --- ML Proxy ---
 app.post('/predict', authenticateToken, async (req, res) => {
     try {
-        const response = await axios.post('http://localhost:8000/predict', req.body);
+        const ml_url = process.env.ML_SERVICE_URL || 'http://localhost:8000';
+        const response = await axios.post(`${ml_url}/predict`, req.body);
         res.json(response.data);
     } catch (err) {
         res.status(500).json({ error: 'ML service error' });
