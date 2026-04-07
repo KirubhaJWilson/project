@@ -110,4 +110,8 @@ app.get('/fhir/Patient/:id', authenticateToken, async (req, res) => {
     } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-app.listen(PORT, () => console.log(`Firebase-Node backend running on port ${PORT}`));
+if (require.main === module) {
+    app.listen(PORT, () => console.log(`Firebase-Node backend running on port ${PORT}`));
+}
+
+module.exports = app;

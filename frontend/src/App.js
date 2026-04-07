@@ -12,7 +12,7 @@ import { LogOut, User, Activity, AlertTriangle } from 'lucide-react';
 
 Chart.register(...registerables);
 
-const API_URL = process.env.REACT_APP_API_URL || '';
+const API_URL = process.env.REACT_APP_API_URL || '/api/node';
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -73,7 +73,10 @@ const Login = ({ setToken }) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.role);
       setToken(res.data.token, res.data.role);
-    } catch (err) { alert('Login failed'); }
+    } catch (err) {
+      const msg = err.response?.data?.error || 'Login failed. Check API URL and ensure database is seeded.';
+      alert(msg);
+    }
   };
 
   return (

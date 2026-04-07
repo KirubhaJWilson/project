@@ -16,8 +16,8 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/node/(.*)", "destination": "/backend-node/server.js" },
-    { "source": "/api/ml/(.*)", "destination": "/backend-fastapi/main.py" },
-    { "source": "/(.*)", "destination": "/frontend/$1" }
+    { "source": "/api/node/:match*", "destination": "/backend-node/server.js" },
+    { "source": "/api/ml/:match*", "destination": "/backend-fastapi/main.py" },
+    { "source": "/((?!api/).*)", "destination": "/frontend/$1" }
   ]
 }
